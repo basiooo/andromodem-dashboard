@@ -115,7 +115,7 @@ const Network = ({ serial }) => {
                                                 <div className='mx-2'>APN</div>
                                             </div>
                                             {
-                                                networkInfo.apn ?
+                                                Object.keys(networkInfo.apn).length > 0 ?
                                                     <table>
                                                         <tbody>
                                                             <tr>

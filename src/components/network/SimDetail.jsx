@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { MdSignalCellular0Bar, MdSignalCellular1Bar, MdSignalCellular2Bar, MdSignalCellular3Bar, MdSignalCellular4Bar } from 'react-icons/md'
+import { MdSignalCellular1Bar, MdSignalCellular2Bar, MdSignalCellular3Bar, MdSignalCellular4Bar } from 'react-icons/md'
 
 const signalLevelToIcon = (data) => {
     const level = data?.level ?? data?.mLevel
