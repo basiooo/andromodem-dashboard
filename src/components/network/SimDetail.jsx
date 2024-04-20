@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { MdSignalCellular0Bar, MdSignalCellular1Bar, MdSignalCellular2Bar, MdSignalCellular3Bar, MdSignalCellular4Bar } from 'react-icons/md'
 
 const signalLevelToIcon = (data) => {
-    const level = data.level ?? data.mLevel
+    const level = data?.level ?? data?.mLevel
     switch (level) {
         case "1":
             return <MdSignalCellular1Bar fontSize={30} />
@@ -13,7 +13,7 @@ const signalLevelToIcon = (data) => {
         case "4":
             return <MdSignalCellular4Bar fontSize={30} />
         default:
-            return <MdSignalCellular0Bar fontSize={30} />
+            return "Unknown"
     }
 }
 
@@ -27,7 +27,7 @@ const SimDetail = ({ carrier }) => {
                 </tr>
                 <tr>
                     <td className='text-sm md:text-base'>Network Type</td>
-                    <td className='text-sm md:text-base'>{Object.keys(carrier.signal_strength)[0]}</td>
+                    <td className='text-sm md:text-base'>{Object.keys(carrier.signal_strength)[0] === "" ? Object.keys(carrier.signal_strength)[0] : "Unkonwn"}  </td>
                 </tr>
                 <tr>
                     <td className='text-sm md:text-base'>Sim Slot</td>
@@ -44,12 +44,16 @@ const SimDetail = ({ carrier }) => {
                     )}</td>
                 </tr>
                 {
-                    Object.entries(Object.values(carrier.signal_strength)[0]).map(([k, v]) => (
-                        <tr key={k}>
-                            <td className='text-sm md:text-base'>{k}</td>
-                            <td className='text-sm md:text-base'>{v}</td>
-                        </tr>
-                    ))
+                    Object.keys(carrier.signal_strength).length > 0 ?
+                        Object.entries(Object.values(carrier.signal_strength)[0]).map(([k, v]) => (
+                            <tr key={k}>
+                                <td className='text-sm md:text-base'>{k}</td>
+                                <td className='text-sm md:text-base'>{v}</td>
+                            </tr>
+                        ))
+                        : <>
+
+                        </>
                 }
             </tbody>
         </table>
