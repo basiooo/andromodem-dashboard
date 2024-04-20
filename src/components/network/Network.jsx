@@ -33,6 +33,11 @@ const Network = ({ serial }) => {
     const changeTab = (tabId) => {
         setActiveTab(tabId)
     }
+    const isCarriersMobileDataEnabled = (carriers) => {
+        return networkInfo.carriers.some((carrier, index) => {
+            return isMobileDataEnabled(carrier.connection_state)
+        })
+    }
     const isMobileDataEnabled = (conectionState) => {
         return conectionState === CONNECTION_STATE.CONNECTED || conectionState === CONNECTION_STATE.CONNECTING
     }
@@ -54,8 +59,45 @@ const Network = ({ serial }) => {
         )()
     }
 
+
+    const toggleAirplaneMode = () => {
+        (
+            async () => {
+                try {
+                    setIsLoadNetwork(true)
+                    await dispatch(networkThunks.asyncToggleAirplaneMode(serial))
+                    toast.success(`Success ${!networkInfo.airplane_mode ? "enable" : "disable"} airplane mode`)
+                }
+                catch (error) {
+                    toast.error(error.message)
+                }
+                finally {
+                    setIsLoadNetwork(false)
+                }
+            }
+        )()
+    }
+
+    const toggleMobileData = () => {
+        (
+            async () => {
+                try {
+                    setIsLoadNetwork(true)
+                    await dispatch(networkThunks.asyncToggleMobileData(serial))
+                    toast.success(`Success ${isCarriersMobileDataEnabled(networkInfo.carriers) ? "enable" : "disable"} mobile data`)
+                }
+                catch (error) {
+                    toast.error(error.message)
+                }
+                finally {
+                    setIsLoadNetwork(false)
+                }
+            }
+        )()
+    }
+
     return (
-        <div className="">
+        <div>
             <button onClick={refreshNetwork} disabled={isLoadNetwork} className="btn btn-sm btn-active btn-primary mb-3">
                 <LuRefreshCw className={isLoadNetwork ? "animate-spin" : ""} />
                 Refresh
@@ -72,7 +114,25 @@ const Network = ({ serial }) => {
                                                 <MdOutlineSettingsApplications />
                                                 <div className='mx-2'>APN</div>
                                             </div>
-                                            <h1>{networkInfo.apn.name}</h1>
+                                            {
+                                                networkInfo.apn ?
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Name</td>
+                                                                <td>:</td>
+                                                                <td>{networkInfo.apn.name}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Apn</td>
+                                                                <td>:</td>
+                                                                <td>{networkInfo.apn.apn}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    :
+                                                    <h1>Unknown</h1>
+                                            }
                                         </div>
                                         <div>
                                             <div className='flex items-center text-lg font-bold'>
@@ -88,7 +148,7 @@ const Network = ({ serial }) => {
                                                 <IoAirplane />
                                                 <div className='mx-2'>Airplane Mode</div>
                                             </div>
-                                            <button disabled={isLoadNetwork} className={`btn btn-xs btn-active mb-3 ${networkInfo.airplane_mode ? "btn-success" : "btn-error"
+                                            <button disabled={isLoadNetwork} onClick={toggleAirplaneMode} className={`btn btn-xs btn-active mb-3 ${networkInfo.airplane_mode ? "btn-success" : "btn-error"
                                                 }`}>
                                                 <LuRefreshCw className={isLoadNetwork ? "animate-spin" : ""} />
                                                 {
@@ -101,9 +161,11 @@ const Network = ({ serial }) => {
                                                 <TbMobiledata />
                                                 <div className='mx-2'>Mobile Data</div>
                                             </div>
-                                            <button disabled={networkInfo.airplane_mode || isLoadNetwork} className="btn btn-xs btn-active btn-success mb-3">
+                                            <button disabled={networkInfo.airplane_mode || isLoadNetwork} onClick={toggleMobileData} className={`btn btn-xs btn-active  mb-3 ${isCarriersMobileDataEnabled(networkInfo.carriers) ? "btn-error" : "btn-success"}`}>
                                                 <LuRefreshCw className={isLoadNetwork ? "animate-spin" : ""} />
-                                                Enable
+                                                {
+                                                    isCarriersMobileDataEnabled(networkInfo.carriers) ? "Disable" : "Enable"
+                                                }
                                             </button>
                                         </div>
                                     </div>
@@ -124,7 +186,7 @@ const Network = ({ serial }) => {
                                                                 ""
                                                         }
                                                     </button>
-                                                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 overflow-auto">
+                                                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 overflow-auto ">
                                                         <SimDetail carrier={carrier} />
                                                     </div>
                                                 </>
@@ -138,7 +200,7 @@ const Network = ({ serial }) => {
                         <></>
                 }
             </section>
-        </div >
+        </div>
     )
 }
 

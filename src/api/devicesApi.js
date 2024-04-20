@@ -10,7 +10,7 @@ export const devicesAPI = {
             })
         }
     },
-    getDevice: async (serial) => {
+    getDeviceInfo: async (serial) => {
         try {
             return await api.get(`devices/${serial}`)
         } catch (error) {

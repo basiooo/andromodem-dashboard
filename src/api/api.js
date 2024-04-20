@@ -45,8 +45,8 @@ const api = {
         return responseData
     },
 
-    put: async (url, body, options = {}) => {
-        return api._fetch(`${api.baseUrl}/${url}`, {
+    put: async (url, body = {}, options = {}) => {
+        const response = await api._fetch(`${api.baseUrl}/${url}`, {
             ...options,
             method: "PUT",
             headers: {
@@ -55,6 +55,8 @@ const api = {
             },
             body: JSON.stringify(body),
         })
+        const responseData = await api._handleResponse(response)
+        return responseData
     },
 
     delete: async (url, options = {}) => {

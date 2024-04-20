@@ -18,7 +18,7 @@ const InboxItem = ({ inbox }) => {
                     {inbox.date}
                 </p>
             </div>
-            <div className="collapse-content bg-base-200 border-t pt-3 text-lg w-auto">
+            <div className="collapse-content bg-base-200 border-t pt-3 md:text-lg">
                 <Anchorme linkComponent={CustomLink} target="_blank" rel="noreferrer noopener">
                     {inbox.body}
                 </Anchorme>

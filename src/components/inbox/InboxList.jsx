@@ -44,7 +44,7 @@ const InboxList = ({ serial }) => {
 
 
     return (
-        <div className="">
+        <div className="w-auto">
             <button onClick={refreshInboxs} disabled={isLoadInboxs} className="btn btn-sm btn-active btn-primary mb-3">
                 <LuRefreshCw className={isLoadInboxs ? "animate-spin" : ""} />
                 Refresh

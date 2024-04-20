@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 
 import { DeviceShape } from '../../utils/shapes'
+import Advance from '../advance/Advance'
+import DeviceInfo from '../deviceInfo/DeviceInfo'
 import InboxList from '../inbox/InboxList'
 import Network from '../network/Network'
 
@@ -18,25 +20,30 @@ const Content = ({ device }) => {
                     {device.model}
                 </h2>
                 <div role="tablist" className="tabs tabs-lifted">
-                    <button type="button" role="tab" className={`tab text-lg ${activeTab === 'tab-device-info' ? 'tab-active' : ''}`} id="tab-device-info" onClick={() => changeTab('tab-device-info')}>
+                    <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-device-info' ? 'tab-active' : ''}`} id="tab-device-info" onClick={() => changeTab('tab-device-info')}>
                         Device
                     </button>
-                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 1</div>
-                    <button type="button" role="tab" className={`tab text-lg ${activeTab === 'tab-network-info' ? 'tab-active' : ''}`} id="tab-network-info" onClick={() => changeTab('tab-network-info')}>
+                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                        <DeviceInfo serial={device.serial} />
+                    </div>
+                    <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-network-info' ? 'tab-active' : ''}`} id="tab-network-info" onClick={() => changeTab('tab-network-info')}>
                         Network
                     </button>
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
                         <Network serial={device.serial} />
                     </div>
-                    <button type="button" role="tab" className={`tab text-lg ${activeTab === 'tab-inbox' ? 'tab-active' : ''}`} id="tab-inbox" onClick={() => changeTab('tab-inbox')}>
+                    <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-inbox' ? 'tab-active' : ''}`} id="tab-inbox" onClick={() => changeTab('tab-inbox')}>
                         Inbox
                     </button>
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
                         <InboxList serial={device.serial} />
                     </div>
-                    <button type="button" role="tab" className={`tab text-lg ${activeTab === 'tab-advance' ? 'tab-active' : ''}`} id="tab-advance" onClick={() => changeTab('tab-advance')}>
+                    <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-advance' ? 'tab-active' : ''}`} id="tab-advance" onClick={() => changeTab('tab-advance')}>
                         Advance
                     </button>
+                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
+                        <Advance serial={device.serial} />
+                    </div>
                 </div>
             </div>
         </div>

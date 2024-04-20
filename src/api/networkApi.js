@@ -10,5 +10,22 @@ export const networkAPI = {
             })
         }
     },
-
+    toggleAirplaneMode: async (serial) => {
+        try {
+            return await api.put(`devices/${serial}/network/airplane`)
+        } catch (error) {
+            return makeResponseFailed({
+                message: error.message,
+            })
+        }
+    },
+    toggleMobileData: async (serial) => {
+        try {
+            return await api.put(`devices/${serial}/network`)
+        } catch (error) {
+            return makeResponseFailed({
+                message: error.message,
+            })
+        }
+    },
 }
