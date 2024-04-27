@@ -65,35 +65,35 @@ const DeviceInfo = ({ serial }) => {
                                     <div>
                                         <div className='flex items-center text-lg font-bold'>
                                             <MdOutlineFactory />
-                                            <div className='mx-2'>Brand</div>
+                                            <div className='mx-2 text-base'>Brand</div>
                                         </div>
                                         <h1>{deviceInfo.prop.brand}</h1>
                                     </div>
                                     <div>
                                         <div className='flex items-center text-lg font-bold'>
                                             <IoPhonePortraitOutline />
-                                            <div className='mx-2'>Model</div>
+                                            <div className='mx-2 text-base'>Model</div>
                                         </div>
                                         <h1>{deviceInfo.prop.model}</h1>
                                     </div>
                                     <div>
                                         <div className='flex items-center text-lg font-bold'>
                                             <PiIdentificationBadgeBold />
-                                            <div className='mx-2'>Name</div>
+                                            <div className='mx-2 text-base'>Name</div>
                                         </div>
                                         <h1>{deviceInfo.prop.name}</h1>
                                     </div>
                                     <div>
                                         <div className='flex items-center text-lg font-bold'>
                                             <DiAndroid />
-                                            <div className='mx-2'>Android Version</div>
+                                            <div className='mx-2 text-base'>OS Version</div>
                                         </div>
                                         <h1>{deviceInfo.prop.android_version}</h1>
                                     </div>
                                     <div>
                                         <div className='flex items-center text-lg font-bold'>
                                             <GiAndroidMask />
-                                            <div className='mx-2'>Root</div>
+                                            <div className='mx-2 text-base'>Root</div>
                                         </div>
                                         {
                                             deviceInfo.root.is_rooted ?
@@ -124,7 +124,7 @@ const DeviceInfo = ({ serial }) => {
                                     <div>
                                         <div className='flex items-center text-lg font-bold'>
                                             <FaBatteryFull />
-                                            <div className='mx-2'>Battery</div>
+                                            <div className='mx-2 text-base'>Battery</div>
                                         </div>
                                         <h1>{deviceInfo.battery.present ? deviceInfo.battery.level + "%" : "Does not have a physical battery"}</h1>
                                     </div>
@@ -134,21 +134,21 @@ const DeviceInfo = ({ serial }) => {
                                                 <div>
                                                     <div className='flex items-center text-lg font-bold'>
                                                         <PiPlugChargingBold />
-                                                        <div className='mx-2'>Charge Counter</div>
+                                                        <div className='mx-2 text-base'>Counter</div>
                                                     </div>
                                                     <h1>{deviceInfo.battery.charge_counter}</h1>
                                                 </div>
                                                 <div>
                                                     <div className='flex items-center text-lg font-bold'>
                                                         <TbTemperatureCelsius />
-                                                        <div className='mx-2'>Temperature</div>
+                                                        <div className='mx-2 text-base'>Temp</div>
                                                     </div>
                                                     <h1>{deviceInfo.battery.temperature} °C</h1>
                                                 </div>
                                                 <div>
                                                     <div className='flex items-center text-lg font-bold'>
                                                         <MdOutlineCategory />
-                                                        <div className='mx-2'>Technology</div>
+                                                        <div className='mx-2 text-base'>Technology</div>
                                                     </div>
                                                     <h1>{deviceInfo.battery.technology}</h1>
                                                 </div>

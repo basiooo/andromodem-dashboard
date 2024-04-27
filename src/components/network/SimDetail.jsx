@@ -35,7 +35,7 @@ const SimDetail = ({ carrier }) => {
                 </tr>
                 <tr>
                     <td className='text-sm md:text-base'>Mobile Data Status</td>
-                    <td className='text-sm md:text-base'>{carrier.connection_state}</td>
+                    <td className='text-sm md:text-base'>{carrier.connection_state.length > 0 ? carrier.connection_state : "Unknown"}</td>
                 </tr>
                 <tr>
                     <td className='text-sm md:text-base'>Signal Strength</td>
@@ -51,8 +51,17 @@ const SimDetail = ({ carrier }) => {
                                 <td className='text-sm md:text-base'>{v}</td>
                             </tr>
                         ))
-                        : <>
-
+                        : 
+                        <>
+                        <tr>
+                            <td colSpan={2} className='text-center text-red-600'>
+                                <div>
+                                <p>Unable to extract signal strength</p>
+                                <p className='text-center'>This feature runs normally on Android 10 and above with OS AOSP, MIUI, Hyper OS and others</p>
+                                </div>
+                            </td>
+                            
+                        </tr>
                         </>
                 }
             </tbody>
