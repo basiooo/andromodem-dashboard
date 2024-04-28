@@ -146,9 +146,7 @@ const Network = ({ serial }) => {
                                                 <GrLocationPin />
                                                 <div className='mx-2 text-base'>Mobile Data IP</div>
                                             </div>
-                                            <div className="tooltip" data-tip="The IP address is obtained from rmnet_data*">
-                                                <h1>{networkInfo.ip.length ? networkInfo.ip : "Unknown"}</h1>
-                                            </div>
+                                            <h1>{networkInfo.ip.length ? networkInfo.ip : "Unknown"}</h1>
                                         </div>
                                         <div>
                                             <div className='flex items-center text-lg font-bold'>
