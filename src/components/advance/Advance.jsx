@@ -4,7 +4,7 @@ import { MdOutlineRestartAlt } from "react-icons/md"
 const Advance = () => {
     return (
         <>
-            <h1 className="text-2xl text-center font-bold my-5 text-red-500">Can't be used now</h1>
+            <h1 className="text-2xl text-center font-bold my-5 text-red-500">Coming Soon</h1>
             <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
                 <div className="card card-compact w-full bg-base-200 shadow-xl md:col-span-2">
                     <div className="card-body">

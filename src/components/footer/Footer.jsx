@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer className="footer footer-center p-4 bg-base-300 text-base-content">
             <aside>
-                <p>Version {config.VERSION} (Alpha)</p>
+                <p>Version {config.VERSION} (Beta)</p>
                 <p>
                     Made with
                     <FaHeart className="mx-3 inline text-lg animate-bounce text-pink-600" />
