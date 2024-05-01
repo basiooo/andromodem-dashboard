@@ -43,7 +43,15 @@ const InboxList = ({ serial }) => {
                     await dispatch(inboxThunks.asyncGetInboxs(serial))
                 }
                 catch (error) {
-                    toast.error(error.message)
+                    if (error.message === "cannot get sms list without root"){
+                        setIsReqRoot(true)
+                    }
+                    else if (error.message === "cannot get sms list. please allow root permission"){
+                        setIsReqRootPermission(true)
+                    }
+                    else{
+                        toast.error(error.message)
+                    }                
                 }
                 finally {
                     setIsLoadInboxs(false)

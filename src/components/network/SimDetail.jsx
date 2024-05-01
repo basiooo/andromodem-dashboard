@@ -44,7 +44,7 @@ const SimDetail = ({ carrier }) => {
                     )}</td>
                 </tr>
                 {
-                    Object.keys(carrier.signal_strength).length > 0 ?
+                    Object.keys(carrier.signal_strength).length > 0 && carrier.signal_strength[Object.keys(carrier.signal_strength)].length > 0 ?
                         Object.entries(Object.values(carrier.signal_strength)[0]).map(([k, v]) => (
                             <tr key={k}>
                                 <td className='text-sm md:text-base'>{k}</td>
