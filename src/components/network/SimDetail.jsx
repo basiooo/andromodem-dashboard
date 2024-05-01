@@ -27,7 +27,7 @@ const SimDetail = ({ carrier }) => {
                 </tr>
                 <tr>
                     <td className='text-sm md:text-base'>Network Type</td>
-                    <td className='text-sm md:text-base'>{Object.keys(carrier.signal_strength).length === 0 ?  "Unkonwn" : Object.keys(carrier.signal_strength)[0]}  </td>
+                    <td className='text-sm md:text-base'>{Object.keys(carrier.signal_strength).length === 0 ?  "Unknown" : Object.keys(carrier.signal_strength)[0]}  </td>
                 </tr>
                 <tr>
                     <td className='text-sm md:text-base'>Sim Slot</td>

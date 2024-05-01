@@ -10,7 +10,8 @@ import InboxItem from "./InboxItem"
 
 const InboxList = ({ serial }) => {
     const [isLoadInboxs, setIsLoadInboxs] = useState(false)
-    const [isNotSupport, setIsNotSupport] = useState(false)
+    const [isReqRoot, setIsReqRoot] = useState(false)
+    const [isReqRootPermission, setIsReqRootPermission] = useState(false)
     const dispatch = useDispatch()
     const inboxs = useSelector((state) => state.inboxs)
     useEffect(() => {
@@ -19,9 +20,13 @@ const InboxList = ({ serial }) => {
                 try {
                     await dispatch(inboxThunks.asyncGetInboxs(serial))
                 } catch (error) {
-                    if (error.message === "cannot get sms list"){
-                        setIsNotSupport(true)
-                    }else{
+                    if (error.message === "cannot get sms list without root"){
+                        setIsReqRoot(true)
+                    }
+                    else if (error.message === "cannot get sms list. please allow root permission"){
+                        setIsReqRootPermission(true)
+                    }
+                    else{
                         toast.error(error.message)
                     }
                 }
@@ -50,10 +55,19 @@ const InboxList = ({ serial }) => {
     return (
         <div className="w-auto">
             {
-                isNotSupport ? <>
-                    <h1 className="text-2xl text-center font-bold my-5 text-red-500">Your device does not support this feature</h1>
-                    <p className='text-center'>This feature runs normally on Android 10 and above with OS AOSP, MIUI, Hyper OS and others</p>
-                </> : 
+                isReqRoot ? <>
+                    <h1 className="text-2xl text-center font-bold my-5 text-red-500">Your device does not support this feature without root</h1>
+                    <p className='text-center'>This feature runs normally without root on Android 10 and above with OS AOSP, MIUI, Hyper OS and others</p>
+                </> 
+                : isReqRootPermission ?
+                <>
+                    <h1 className="text-2xl text-center font-bold my-5 text-red-500">Permission Denied</h1>
+                    <h2 className='text-center text-xl'>please allow root access for "com.android.shell"</h2>
+                    <h2 className='text-center text-xl'>
+                        Open Magisk Manager {"->"} Superuser {"->"} Search and allow root permissions for "com.android.shell"
+                    </h2>
+                </>
+                : 
                 <>
                 <button onClick={refreshInboxs} disabled={isLoadInboxs} className="btn btn-sm btn-active btn-primary mb-3">
                     <LuRefreshCw className={isLoadInboxs ? "animate-spin" : ""} />
