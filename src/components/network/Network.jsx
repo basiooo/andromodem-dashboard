@@ -18,6 +18,19 @@ const Network = ({ serial }) => {
     const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState(0)
     const networkInfo = useSelector((state) => state.network)
+    const deviceInfo = useSelector((state) => state.deviceInfo)
+
+    const getAndroidVersion = () => {
+        try {
+            return parseFloat(deviceInfo.prop.android_version)
+        } catch (error) {
+            return null
+        }
+    }
+    
+    const isNotSupportCMD = () => {
+        return getAndroidVersion() < 9 || getAndroidVersion() === null
+    }
 
     useEffect(() => {
         (
@@ -36,12 +49,12 @@ const Network = ({ serial }) => {
     }
 
     const isCarriersMobileDataEnabled = (carriers) => {
-        return networkInfo.carriers?.some((carrier, index) => {
+        return carriers?.some((carrier, index) => {
             return isMobileDataEnabled(carrier.connection_state)
         })
     }    
     const isCarriersMobileDataEmptyState = (carriers) => {
-        return networkInfo.carriers?.some((carrier, index) => {
+        return carriers?.some((carrier, index) => {
             return carrier.connection_state === ""
         })
     }
@@ -102,7 +115,6 @@ const Network = ({ serial }) => {
             }
         )()
     }
-
     return (
         <div>
             <button onClick={refreshNetwork} disabled={isLoadNetwork} className="btn btn-sm btn-active btn-primary mb-3">
@@ -153,13 +165,22 @@ const Network = ({ serial }) => {
                                                 <IoAirplane />
                                                 <div className='mx-2 text-base'>Airplane Mode</div>
                                             </div>
-                                            <button disabled={isLoadNetwork} onClick={toggleAirplaneMode} className={`btn btn-xs btn-active mb-3 ${networkInfo.airplane_mode ? "btn-success" : "btn-error"
+                                            <button disabled={isLoadNetwork || isNotSupportCMD()} onClick={toggleAirplaneMode} className={`btn btn-xs btn-active mb-3 ${networkInfo.airplane_mode ? "btn-success" : "btn-error"
                                                 }`}>
                                                 <LuRefreshCw className={isLoadNetwork ? "animate-spin" : ""} />
                                                 {
                                                     networkInfo.airplane_mode ? "Disable" : "Enable"
                                                 }
                                             </button>
+                                            {
+                                                isNotSupportCMD()
+                                                ?
+                                                <p className='text-red-500'>
+                                                This feature is only available android version 9 or higher
+                                                </p>
+                                                :
+                                                <></>
+                                            }
                                         </div>
                                         <div>
                                             <div className='flex items-center text-lg font-bold'>
