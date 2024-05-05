@@ -4,6 +4,9 @@ import toast from 'react-hot-toast'
 import { LuRefreshCw } from "react-icons/lu"
 import { useDispatch, useSelector } from "react-redux"
 
+import magiskEnableShell from "../../../public/magisk_enable_shell.png"
+import magiskHome from "../../../public/magisk_home.png"
+import magiskIconApp from "../../../public/magisk_icon_app.png"
 import { inboxThunks } from '../../states/inboxs/action'
 import InboxItemSkeleton from '../skeletons/InboxItemSkeleton'
 import InboxItem from "./InboxItem"
@@ -64,16 +67,21 @@ const InboxList = ({ serial }) => {
         <div className="w-auto">
             {
                 isReqRoot ? <>
-                    <h1 className="text-2xl text-center font-bold my-5 text-red-500">Your device does not support this feature without root</h1>
-                    <p className='text-center'>This feature runs normally without root on Android 10 and above with OS AOSP, MIUI, Hyper OS and others</p>
+                    <h1 className="text-3xl text-center font-bold my-5 text-red-500">Your device does not support this feature without root</h1>
+                    <p className='text-center text-xl'>This feature runs normally without root on Android 10 and above with OS AOSP, MIUI, Hyper OS and others</p>
                 </> 
                 : isReqRootPermission ?
                 <>
-                    <h1 className="text-2xl text-center font-bold my-5 text-red-500">Permission Denied</h1>
-                    <h2 className='text-center text-xl'>please allow root access for "com.android.shell"</h2>
-                    <h2 className='text-center text-xl'>
-                        Open Magisk Manager {"->"} Superuser {"->"} Search and allow root permissions for "com.android.shell"
-                    </h2>
+                    <h1 className="text-3xl text-center font-bold my-5 text-red-500">Permission Denied</h1>
+                    <h2 className='text-center text-xl'>Please allow root access for "com.android.shell"</h2>
+                    <div className='text-center mt-8'>
+                        <img className='m-auto w-40 md:w-52 lg:w-64'src={magiskIconApp} />
+                        <h2 className='text-base pb-9'>Open Magisk manager</h2>
+                        <img className='m-auto w-40 md:w-52 lg:w-64'src={magiskHome} />
+                        <h2 className='text-base pb-9'>Click Superuser tab</h2>
+                        <img className='m-auto w-40 md:w-52 lg:w-64'src={magiskEnableShell} />
+                        <h2 className='text-base pb-9'>Enable Superuser for "com.android.shell"</h2>
+                    </div>
                 </>
                 : 
                 <>

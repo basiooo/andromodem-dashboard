@@ -176,7 +176,7 @@ const Network = ({ serial }) => {
                                                 isNotSupportCMD()
                                                 ?
                                                 <p className='text-red-500'>
-                                                This feature is only available android version 9 or higher
+                                                This feature is only available on Android version 9 or higher
                                                 </p>
                                                 :
                                                 <></>

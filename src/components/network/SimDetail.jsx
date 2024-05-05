@@ -56,7 +56,7 @@ const SimDetail = ({ carrier }) => {
                             <td colSpan={2} className='text-center text-red-600'>
                                 <div>
                                 <p>Unable to extract signal strength</p>
-                                <p className='text-center'>This feature runs normally on Android 10 and above with OS AOSP, MIUI, Hyper OS and others</p>
+                                <p className='text-center'>This feature runs normally on Android 10 or above.</p>
                                 </div>
                             </td>
                             
