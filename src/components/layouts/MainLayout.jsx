@@ -28,13 +28,11 @@ export const MainLayout = () => {
                     "https://andromodem.bagasjulianto.my.id/download/latest/"
                 )
                 const response = await andromodem.json()
-                console.log(parseFloat(response.version))
                 if (parseFloat(response.version) > config.VERSION) {
                     setHasUpdate(true)
                     setUpdateDetail(response)
                 }
             } catch (error) {
-                console.log(error)
             }
         })()
     }, [dispatch, hasUpdate])
