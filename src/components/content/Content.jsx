@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
+import { FaFire } from 'react-icons/fa'
+import { GiNetworkBars } from 'react-icons/gi'
+import { MdOutlineMessage, MdPermDeviceInformation } from 'react-icons/md'
 
 import { DeviceShape } from '../../utils/shapes'
 import Advance from '../advance/Advance'
@@ -21,25 +24,29 @@ const Content = ({ device }) => {
                 </h2>
                 <div role="tablist" className="tabs tabs-lifted">
                     <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-device-info' ? 'tab-active' : ''}`} id="tab-device-info" onClick={() => changeTab('tab-device-info')}>
-                        Device
+                        <MdPermDeviceInformation  size={23} className='md:hidden'/>
+                        <span className='hidden md:block'>Device</span>
                     </button>
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
                         <DeviceInfo serial={device.serial} />
                     </div>
                     <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-network-info' ? 'tab-active' : ''}`} id="tab-network-info" onClick={() => changeTab('tab-network-info')}>
-                        Network
+                        <GiNetworkBars  size={23} className='md:hidden'/>
+                        <span className='hidden md:block'>Network</span>
                     </button>
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
                         <Network serial={device.serial} />
                     </div>
                     <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-inbox' ? 'tab-active' : ''}`} id="tab-inbox" onClick={() => changeTab('tab-inbox')}>
-                        Inbox
+                        <MdOutlineMessage size={23} className='md:hidden'/>
+                        <span className='hidden md:block'>Inbox</span>
                     </button>
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
                         <InboxList serial={device.serial} />
                     </div>
                     <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-advance' ? 'tab-active' : ''}`} id="tab-advance" onClick={() => changeTab('tab-advance')}>
-                        Advance
+                        <FaFire  size={23} className='md:hidden'/>
+                        <span className='hidden md:block'>Advance</span>
                     </button>
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
                         <Advance serial={device.serial} />

@@ -18,6 +18,19 @@ const Network = ({ serial }) => {
     const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState(0)
     const networkInfo = useSelector((state) => state.network)
+    const deviceInfo = useSelector((state) => state.deviceInfo)
+
+    const getAndroidVersion = () => {
+        try {
+            return parseFloat(deviceInfo.prop.android_version)
+        } catch (error) {
+            return null
+        }
+    }
+    
+    const isNotSupportCMD = () => {
+        return getAndroidVersion() < 9 || getAndroidVersion() === null
+    }
 
     useEffect(() => {
         (
@@ -36,12 +49,12 @@ const Network = ({ serial }) => {
     }
 
     const isCarriersMobileDataEnabled = (carriers) => {
-        return networkInfo.carriers.some((carrier, index) => {
+        return carriers?.some((carrier, index) => {
             return isMobileDataEnabled(carrier.connection_state)
         })
     }    
     const isCarriersMobileDataEmptyState = (carriers) => {
-        return networkInfo.carriers.some((carrier, index) => {
+        return carriers?.some((carrier, index) => {
             return carrier.connection_state === ""
         })
     }
@@ -102,7 +115,6 @@ const Network = ({ serial }) => {
             }
         )()
     }
-
     return (
         <div>
             <button onClick={refreshNetwork} disabled={isLoadNetwork} className="btn btn-sm btn-active btn-primary mb-3">
@@ -153,27 +165,36 @@ const Network = ({ serial }) => {
                                                 <IoAirplane />
                                                 <div className='mx-2 text-base'>Airplane Mode</div>
                                             </div>
-                                            <button disabled={isLoadNetwork} onClick={toggleAirplaneMode} className={`btn btn-xs btn-active mb-3 ${networkInfo.airplane_mode ? "btn-success" : "btn-error"
+                                            <button disabled={isLoadNetwork || isNotSupportCMD()} onClick={toggleAirplaneMode} className={`btn btn-xs btn-active mb-3 ${networkInfo.airplane_mode ? "btn-success" : "btn-error"
                                                 }`}>
                                                 <LuRefreshCw className={isLoadNetwork ? "animate-spin" : ""} />
                                                 {
                                                     networkInfo.airplane_mode ? "Disable" : "Enable"
                                                 }
                                             </button>
+                                            {
+                                                isNotSupportCMD()
+                                                ?
+                                                <p className='text-red-500'>
+                                                This feature is only available on Android version 9 or higher
+                                                </p>
+                                                :
+                                                <></>
+                                            }
                                         </div>
                                         <div>
                                             <div className='flex items-center text-lg font-bold'>
                                                 <TbMobiledata />
                                                 <div className='mx-2 text-base'>Mobile Data</div>
                                             </div>
-                                            <button disabled={networkInfo.airplane_mode || isLoadNetwork || isCarriersMobileDataEmptyState(networkInfo.carriers)} onClick={toggleMobileData} className={`btn btn-xs btn-active  mb-3 ${isCarriersMobileDataEnabled(networkInfo.carriers) ? "btn-error" : "btn-success"}`}>
+                                            <button disabled={networkInfo.airplane_mode || isLoadNetwork || networkInfo.carriers == null || isCarriersMobileDataEmptyState(networkInfo.carriers)} onClick={toggleMobileData} className={`btn btn-xs btn-active  mb-3 ${isCarriersMobileDataEnabled(networkInfo.carriers) ? "btn-error" : "btn-success"}`}>
                                                 <LuRefreshCw className={isLoadNetwork ? "animate-spin" : ""} />
                                                 {
                                                     isCarriersMobileDataEnabled(networkInfo.carriers) ? "Disable" : "Enable"
                                                 }
                                             </button>
                                             {
-                                                isCarriersMobileDataEmptyState(networkInfo.carriers)
+                                                isCarriersMobileDataEmptyState(networkInfo.carriers) || networkInfo.carriers == null
                                                 ? 
                                                 <p className='text-red-500'>
                                                 This feature cannot be used because it cannot obtain the device connection status
@@ -188,7 +209,8 @@ const Network = ({ serial }) => {
                                 <div className="card-body">
                                     <div role="tablist" className="tabs tabs-lifted">
                                         {
-                                            networkInfo.carriers.map((carrier, index) => (
+                                            networkInfo.carriers?.length ?
+                                             networkInfo.carriers?.map((carrier, index) => (
                                                 <>
                                                     <button type="button" role="tab" className={`tab text-sm md:text-lg ${activeTab === index ? 'tab-active' : ''}`} id={index} onClick={() => changeTab(index)}>
                                                         {carrier.name}
@@ -204,6 +226,10 @@ const Network = ({ serial }) => {
                                                     </div>
                                                 </>
                                             ))
+                                             :
+                                             <>
+                                                <h1 className="text-2xl text-center font-bold my-5 text-red-500">Cannot extract sim info</h1>
+                                             </>
                                         }
                                     </div>
                                 </div>

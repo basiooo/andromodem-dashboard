@@ -16,7 +16,6 @@ const signalLevelToIcon = (data) => {
             return "Unknown"
     }
 }
-
 const SimDetail = ({ carrier }) => {
     return (
         <table className="table">
@@ -27,7 +26,7 @@ const SimDetail = ({ carrier }) => {
                 </tr>
                 <tr>
                     <td className='text-sm md:text-base'>Network Type</td>
-                    <td className='text-sm md:text-base'>{Object.keys(carrier.signal_strength).length === 0 ?  "Unkonwn" : Object.keys(carrier.signal_strength)[0]}  </td>
+                    <td className='text-sm md:text-base'>{Object.keys(carrier.signal_strength).length === 0 ?  "Unknown" : Object.keys(carrier.signal_strength)[0]}  </td>
                 </tr>
                 <tr>
                     <td className='text-sm md:text-base'>Sim Slot</td>
@@ -44,7 +43,7 @@ const SimDetail = ({ carrier }) => {
                     )}</td>
                 </tr>
                 {
-                    Object.keys(carrier.signal_strength).length > 0 ?
+                    Object.keys(carrier.signal_strength).length > 0 && Object.keys(carrier.signal_strength[Object.keys(carrier.signal_strength)]).length > 0 ?
                         Object.entries(Object.values(carrier.signal_strength)[0]).map(([k, v]) => (
                             <tr key={k}>
                                 <td className='text-sm md:text-base'>{k}</td>
@@ -57,7 +56,7 @@ const SimDetail = ({ carrier }) => {
                             <td colSpan={2} className='text-center text-red-600'>
                                 <div>
                                 <p>Unable to extract signal strength</p>
-                                <p className='text-center'>This feature runs normally on Android 10 and above with OS AOSP, MIUI, Hyper OS and others</p>
+                                <p className='text-center'>This feature runs normally on Android 10 or above.</p>
                                 </div>
                             </td>
                             
