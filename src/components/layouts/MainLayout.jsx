@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { MdFiberNew } from "react-icons/md"
+import { MdBrowserUpdated } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
 import { config } from "../../config"
@@ -41,6 +41,15 @@ export const MainLayout = () => {
         <>
             <Header />
             <main className="container min-h-screen mx-auto py-5">
+            {
+                hasUpdate ? 
+            <button onClick={()=>document.getElementById('update_modal').showModal()} className="h-10 btn btn-sm mb-5 btn-success w-full md:w-auto">
+            <MdBrowserUpdated fontSize={20} />
+                New update available
+            </button>
+                :
+                <></>
+            }
                 {errrorMessage ? (
                     <div className="hero min-h-5 bg-base-200">
                         <div className="hero-content text-center">
@@ -60,52 +69,42 @@ export const MainLayout = () => {
                 )}
                 {hasUpdate ? (
                     <>
-                        <div
-                            className="fixed bottom-0 right-2 sm:right-10 p-2 justify-end w-24 h-24 tooltip"
-                            data-tip="New Update"
-                        >
-                            <button onClick={()=>document.getElementById('update_modal').showModal()}
-                                className="btn btn-success btn-circle text-4xl animate-bounce"
-                            >
-                                <MdFiberNew/>
-                            </button>
-                            <dialog id="update_modal" className="modal ">
-                                <div className="modal-box w-11/12 max-w-5xl">
-                                    <h3 className="font-bold text-left text-lg md:text-2xl">
-                                        New Update Version {updateDetail.version}
-                                    </h3>
-                                    <hr />
-                                    <div className="my-3">
-                                        <ul>
-                                            {updateDetail?.changelog?.map((log) => (
-                                                // eslint-disable-next-line react/jsx-key
-                                                <li>{log}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    <hr />
-                                    <h5 className="text-2xl font-bold">Step to update</h5>
+                        <dialog id="update_modal" className="modal text-center">
+                            <div className="modal-box w-11/12 max-w-5xl">
+                                <h3 className="font-bold text-left text-lg md:text-2xl">
+                                    New Update Version {updateDetail.version}
+                                </h3>
+                                <hr />
+                                <div className="my-3">
                                     <ul>
-                                        <li>Open Terminal</li>
-                                        <li>Copy and run code this code</li>
-                                        <div className="mockup-code">
-                                            <pre>
-                                                <code>
-                                                    curl -s
-                                                    https://andromodem.bagasjulianto.my.id/download/installer.sh
-                                                    | bash
-                                                </code>
-                                            </pre>
-                                        </div>
+                                        {updateDetail?.changelog?.map((log) => (
+                                            // eslint-disable-next-line react/jsx-key
+                                            <li key={log}>{log}</li>
+                                        ))}
                                     </ul>
-                                    <div className="modal-action">
-                                        <form method="dialog">
-                                            <button className="btn">Close</button>
-                                        </form>
-                                    </div>
                                 </div>
-                            </dialog>
-                        </div>
+                                <hr />
+                                <h5 className="text-2xl font-bold">Step for update</h5>
+                                <ul>
+                                    <li>Open Terminal</li>
+                                    <li>Copy and run code this code</li>
+                                    <div className="mockup-code">
+                                        <pre>
+                                            <code>
+                                                curl -s
+                                                https://andromodem.bagasjulianto.my.id/download/installer.sh
+                                                | bash
+                                            </code>
+                                        </pre>
+                                    </div>
+                                </ul>
+                                <div className="modal-action">
+                                    <form method="dialog">
+                                        <button className="btn">Close</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </dialog>
                     </>
                 ) : (
                     <></>

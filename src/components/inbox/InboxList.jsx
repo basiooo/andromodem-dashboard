@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import toast from 'react-hot-toast'
 import { LuRefreshCw } from "react-icons/lu"
 import { useDispatch, useSelector } from "react-redux"
@@ -12,15 +12,34 @@ import InboxItemSkeleton from '../skeletons/InboxItemSkeleton'
 import InboxItem from "./InboxItem"
 
 const InboxList = ({ serial }) => {
+    const inboxsShowOption = [
+        10, 20, 50, 100, "*"
+    ]
     const [isLoadInboxs, setIsLoadInboxs] = useState(false)
     const [isReqRoot, setIsReqRoot] = useState(false)
     const [isReqRootPermission, setIsReqRootPermission] = useState(false)
+    const [inboxShowValue, setInboxShowValue] = useState(10)
     const dispatch = useDispatch()
     const inboxs = useSelector((state) => state.inboxs)
+
+    const handleInboxsShowOptionChange = (v) => {
+        setInboxShowValue(v)
+    }
+
+    const finalInboxs = useMemo(() => {
+        const result = inboxs ??  []
+        if (inboxShowValue === "*"){
+            return result
+        }
+        return result.slice(0,parseInt(inboxShowValue))
+    }, [inboxShowValue, inboxs])
+
     useEffect(() => {
         (
             async () => {
                 try {
+                    setIsLoadInboxs(true)
+                    setInboxShowValue(10)
                     await dispatch(inboxThunks.asyncGetInboxs(serial))
                 } catch (error) {
                     if (error.message === "cannot get sms list without root"){
@@ -32,6 +51,9 @@ const InboxList = ({ serial }) => {
                     else{
                         toast.error(error.message)
                     }
+                }
+                finally{
+                    setIsLoadInboxs(false)
                 }
             }
         )()
@@ -95,10 +117,39 @@ const InboxList = ({ serial }) => {
                     <InboxItemSkeleton count={5}/>
                     :
                     <>
-                    <span className="text-lg font-bold mx-2">({inboxs.length})</span>
-                    {inboxs.map((inbox) => (
-                        <InboxItem key={`${serial}-${inbox.row}`} inbox={inbox} />
-                    ))}
+                    <div className="flex justify-between align-middle">
+                        <span className="text-lg font-bold mx-2">{inboxs.length <= 10 ? inboxs.length : inboxShowValue === "*" ? inboxs.length : inboxShowValue}/{inboxs.length}</span>
+                        <select defaultValue={inboxs.length <= 10 ? "*" : inboxShowValue} className="select select-primary select-sm w-auto max-w-xs" onChange={(v) => handleInboxsShowOptionChange(v.target.value)}>
+                            {
+                                inboxs.length <= 10 ?
+                                <option 
+                                    key="*" 
+                                    value="*">
+                                        Show All
+                                    </option>
+                                :
+                                inboxsShowOption.map(v => {
+                                    if(inboxs.length >= v || v === "*"){ 
+                                        return <option 
+                                        key={v} 
+                                        value={v} >{
+                                            v === "*" ? "Show All" : v
+                                        }</option>
+                                    }
+                                }) 
+                            }
+                        </select>
+                    </div>
+                    {
+                        inboxs.length > 0 ? 
+                        finalInboxs.map((inbox) => (
+                            <InboxItem key={`${serial}-${inbox.row}`} inbox={inbox} />
+                        ))
+                        : 
+                        <div className='text-center my-10'>
+                            <h2 className='text-xl md:text-2xl'>Empty</h2>
+                        </div>
+                    }
                     </>
                 }
                 </>

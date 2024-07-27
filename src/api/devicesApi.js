@@ -10,6 +10,15 @@ export const devicesAPI = {
             })
         }
     },
+    actionDevicePower: async (serial,body) => {
+        try {
+            return await api.put(`devices/${serial}/power`,body)
+        } catch (error) {
+            return makeResponseFailed({
+                message: error.message,
+            })
+        }
+    },
     getDeviceInfo: async (serial) => {
         try {
             return await api.get(`devices/${serial}`)

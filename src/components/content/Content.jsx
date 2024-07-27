@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { FaFire } from 'react-icons/fa'
+import { FaRobot } from 'react-icons/fa'
 import { GiNetworkBars } from 'react-icons/gi'
+import { IoMdPower } from 'react-icons/io'
 import { MdOutlineMessage, MdPermDeviceInformation } from 'react-icons/md'
 
 import { DeviceShape } from '../../utils/shapes'
-import Advance from '../advance/Advance'
+import Automation from '../automation/Automation'
 import DeviceInfo from '../deviceInfo/DeviceInfo'
 import InboxList from '../inbox/InboxList'
 import Network from '../network/Network'
+import Power from '../power/Power'
 
 const Content = ({ device }) => {
     const [activeTab, setActiveTab] = useState('tab-device-info')
@@ -44,13 +46,20 @@ const Content = ({ device }) => {
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
                         <InboxList serial={device.serial} />
                     </div>
-                    <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-advance' ? 'tab-active' : ''}`} id="tab-advance" onClick={() => changeTab('tab-advance')}>
-                        <FaFire  size={23} className='md:hidden'/>
-                        <span className='hidden md:block'>Advance</span>
+                    <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-power' ? 'tab-active' : ''}`} id="tab-power" onClick={() => changeTab('tab-power')}>
+                        <IoMdPower  size={23} className='md:hidden'/>
+                        <span className='hidden md:block'>Power</span>
                     </button>
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
-                        <Advance serial={device.serial} />
+                        <Power serial={device.serial} />
                     </div>
+                    {/* <button type="button" role="tab" className={`tab text-base ${activeTab === 'tab-automation' ? 'tab-active' : ''}`} id="tab-automation" onClick={() => changeTab('tab-automation')}>
+                        <FaRobot  size={23} className='md:hidden'/>
+                        <span className='hidden md:block'>Automation</span>
+                    </button>
+                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-auto">
+                        <Automation serial={device.serial} />
+                    </div> */}
                 </div>
             </div>
         </div>
